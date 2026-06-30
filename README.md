@@ -4,11 +4,12 @@
 
 This project investigates the Model Context Protocol (MCP) and demonstrates how AI assistants can interact with external data sources through MCP servers.
 
-Three MCP server prototypes were developed:
+Four MCP server prototypes were developed:
 
 - Excel MCP Server
 - PDF MCP Server
 - SQL MCP Server
+- DXF MCP Server
 
 These servers expose tools that allow AI assistants such as Claude Desktop to read, create, update, and analyze local resources through a standardized protocol.
 
@@ -36,7 +37,8 @@ MCP Protocol
 MCP Servers
  ├── Excel Server
  ├── PDF Server
- └── SQL Server
+ ├── SQL Server
+ └── DXF Server
 ```
 
 ---
@@ -50,6 +52,7 @@ MCP Servers
 | Excel Processing | openpyxl |
 | PDF Processing | pdfplumber |
 | Database | SQLite |
+| DXF Processing | ezdxf |
 | Testing Client | Claude Desktop |
 | Development Environment | VS Code |
 
@@ -75,6 +78,9 @@ mcp-prototypes/
 ├── sql_mcp/
 │   ├── server.py
 │   └── database.db
+│
+├── dxf_mcp/
+│   └── server.py
 │
 └── .gitignore
 ```
@@ -122,23 +128,19 @@ Example MCP configuration:
   "mcpServers": {
     "excel-mcp": {
       "command": "/path/to/venv/bin/python",
-      "args": [
-        "/path/to/excel_mcp/server.py"
-      ]
+      "args": ["/path/to/excel_mcp/server.py"]
     },
-
     "pdf-mcp": {
       "command": "/path/to/venv/bin/python",
-      "args": [
-        "/path/to/pdf_mcp/server.py"
-      ]
+      "args": ["/path/to/pdf_mcp/server.py"]
     },
-
     "sql-mcp": {
       "command": "/path/to/venv/bin/python",
-      "args": [
-        "/path/to/sql_mcp/server.py"
-      ]
+      "args": ["/path/to/sql_mcp/server.py"]
+    },
+    "dxf-mcp": {
+      "command": "/path/to/venv/bin/python",
+      "args": ["/path/to/dxf_mcp/server.py"]
     }
   }
 }
@@ -221,6 +223,36 @@ Restart Claude Desktop after modifying the configuration.
 
 ---
 
+# DXF MCP Server
+
+## Tools
+
+| Tool | Description |
+|--------|-------------|
+| server_directory | Show server location |
+| list_dxf_files | List available DXF files |
+| create_dxf | Create a new DXF drawing |
+| add_line | Add a line entity |
+| add_circle | Add a circle entity |
+| add_arc | Add an arc entity |
+| list_entities | List all entities |
+| update_line | Update a line |
+| update_circle | Update a circle |
+| update_arc | Update an arc |
+| delete_entity | Delete an entity by index |
+
+## Example Prompts
+
+- List available DXF files
+- Create a new file called floorplan.dxf
+- Add a line from (0,0) to (10,0)
+- Add a circle at (5,5) with radius 3
+- List all entities in floorplan.dxf
+- Delete the line from floorplan.dxf
+- Update the circle at (5,5) to have radius 6
+
+---
+
 ## Key Findings
 
 Traditional AI assistants are limited to information available within the conversation context.
@@ -232,6 +264,7 @@ In this project:
 - The Excel MCP server provided access to spreadsheets.
 - The PDF MCP server provided access to document contents.
 - The SQL MCP server provided access to database records.
+- The DXF MCP server provided access to CAD drawing geometry.
 
 These tools enabled Claude Desktop to perform real file and database operations through a standardized protocol.
 
